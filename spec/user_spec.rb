@@ -1,6 +1,12 @@
- require 'rails_helper'
+require 'rails_helper'
 
  describe User do
+
+  let(:user){build(:user)}
+    it "is valid with standard attributes (factory)" do
+      expect(user).to be_valid
+    end
+
 
     before :each do
       User.destroy_all
