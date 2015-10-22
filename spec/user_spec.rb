@@ -64,8 +64,6 @@ describe User do
     let(:num_posts){ 5 }
     let(:num_comments){ 5 }
 
-
-
     context "belonging to user" do
 
       before do
