@@ -1,62 +1,44 @@
 require "rails_helper"
 
 describe Post do
-  before :each do
-      User.destroy_all
-      Post.destroy_all
-      Comment.destroy_all
-      @user = User.create(
-        id: 1,
-        email: "schwad@gmail.com",
-        password: "argyle chat"
-        )
-      @post1 = Post.create(
-        id: 1,
-        title: "well hello there",
-        body: "this is awkward",
-        user_id: 1
-        )
-      @post2 = Post.create(
-        id: 2,
-        title: "well hello there",
-        body: "this is awkward",
-        user_id: 1
-        )
-      @comment1 = Comment.create(
-        id: 1,
-        body: "That is a wild post",
-        user_id: 1,
-        post_id: 2
-        )
-      @comment2 = Comment.create(
-        id: 2,
-        body: "That is a wild comment",
-        user_id: 1,
-        post_id: 1
-        )
-      @comment3 = Comment.create(
-        id: 3,
-        body: "No it's not",
-        user_id: 1,
-        post_id: 2
-        )
+  let(:user){build(:user)}
+  let(:post){build(:post)}
+
+
+
+  describe "attributes" do
+    context "with one post" do
+
+
+
+      it "is valid with standard attributes" do
+        expect(post).to be_valid
+      end
+
+      it "requires a title" do
+        new_post = build(:post, :title => nil)
+        expect(new_post).not_to be_valid
+      end
+
+      it "requires a body" do
+        new_post = build(:post, :body => nil)
+        expect(new_post).not_to be_valid
+      end
+
+      it "must have a title above 8 characters" do
+        new_post = build(:post, :title => "hi")
+        expect(new_post).not_to be_valid
+      end
+
+      it "must not have a title longer than 200 characters" do
+        new_post = build(:post, :title => "jfklsajfkldsajfkldsjfkldsjfkljadsklfjkladsjflkdsajfkldsajfkljdsaklfjdskljfkldsjflkadsjflkdajklfjadsklfjlkdsajflkdsajflkdsajfkladsjfkldasjflkadsjfkldsajfklsdajkljdsaklfjdslkfjlskdjfkldasjfkldsadkjlfadsljflkdasjflkadsjfkldsajfkldsjklfa")
+        expect(new_post).not_to be_valid
+      end
+
+      it "must belong to a user" do
+        new_post = build(:post, :user_id => nil)
+        expect(new_post).not_to be_valid
+      end
     end
-  it "is valid with a user" do
-      expect(@post2).to be_valid
   end
-  it "is invalid without a user" do
-      post = Post.new(
-        title: "this is my title",
-        body: "this is my body"
-        )
-      expect(post).to_not be_valid
-  end
-
-  it "only has one user" do
-    expect(@post2.user_id).to eq(1)
-  end
-  it "can have many comments" do
-    expect(@post2.comments.count).to eq(2)
-  end
-
 end

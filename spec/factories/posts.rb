@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :post do
-    title "MyText"
+    title "MyTextnessyo"
     body "MyText"
     user_id 1
   end
