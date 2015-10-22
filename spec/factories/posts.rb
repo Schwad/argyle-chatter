@@ -5,5 +5,9 @@ FactoryGirl.define do
     title "MyTextnessyo"
     body "MyText"
     user_id 1
+
+    factory :invalid_post do
+      user_id nil
+    end
   end
 end

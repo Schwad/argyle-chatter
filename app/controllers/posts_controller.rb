@@ -3,10 +3,11 @@ class PostsController < ApplicationController
 
   def show
     flash[:error] = "Can't find Blog Post" unless @p
+    @post = Post.find(params[:id])
   end
 
   def index
-    @posts = Post.all
+    @posts = Post.where("user_id = ?", current_user.id)
   end
 
   def destroy
