@@ -7,6 +7,11 @@ class CommentsController < ApplicationController
   end
 
   def update
+    begin
+      #code
+    rescue => e
+      Rails.logger.error { "Encountered an error during <details>; More info: #{e.message} #{e.backtrace.join("\n")}"}
+    end
   end
 
   def destroy
