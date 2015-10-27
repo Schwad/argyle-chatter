@@ -2,7 +2,7 @@ class PostsController < ApplicationController
   before_filter :set_post, :only => [:create, :show, :destroy, :update]
 
   def show
-    flash[:error] = "Can't find Blog Post" unless @p
+    redirect_to root unless @p
     @post = Post.find(params[:id])
   end
 
@@ -16,8 +16,8 @@ class PostsController < ApplicationController
 
   private
 
-    def set_post
-      @p = Post.find(params[:id])
-    end
+  def set_post
+    @p = Post.find(params[:id])
+  end
 
 end

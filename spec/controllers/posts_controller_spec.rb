@@ -20,19 +20,30 @@ RSpec.describe PostsController, :type => :controller do
   end
 
   describe "GET #show" do
+
+    let(:post){create_list(:post, 5)}
+    let(:user){create(:user, posts: post)}
+
     it "assigns the requested post to @post" do
-      post = create_list(:post, 5)
-      user = create(:user, posts: post)
+      # post = create_list(:post, 5)
+      # user = create(:user, posts: post)
       get :show, id: post[0], user_id: user.id
       expect(assigns(:post)).to eq(post[0])
     end
 
     it "renders the show template" do
-      post = create_list(:post, 5)
-      user = create(:user, posts: post)
+      # post = create_list(:post, 5)
+      # user = create(:user, posts: post)
       get :show, id: post[0], user_id: user.id
       expect(response).to render_template :show
     end
+
+    it "does not render show template without params" do
+      expect{get :show, id: nil, user_id: nil
+      }.to raise_error
+    end
+
+    # it "raises no errors with correct inputs" do
   end
 
   describe "GET #new" do
