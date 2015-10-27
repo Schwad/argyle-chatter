@@ -66,8 +66,13 @@ RSpec.describe PostsController, :type => :controller do
   describe "GET #new" do
 
     it "renders the new template" do
-      get :new, user_id: user.id
+      get :new, id: post[0], user_id: user.id
       expect(response).to render_template :new
+    end
+
+    it "redirects without post id params" do
+      get :new, user_id: user.id
+      expect(response).to redirect_to root_path
     end
 
   end
@@ -77,6 +82,15 @@ RSpec.describe PostsController, :type => :controller do
   end
 
   describe "POST #create" do
+
+    it "redirects after post is created" do
+      post :create, post: attributes_for(:post)
+      expect(response).to redirect_to user_post_path(assigns[:post])
+    end
+
+    # it "creates a new post" do
+    #   expect{ post :create, post: attributes_for(:post)}.to change(Post, :count).by(1)
+    # end
 
   end
 

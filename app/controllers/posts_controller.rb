@@ -21,6 +21,16 @@ class PostsController < ApplicationController
 
   def create
     set_post
+
+    @post = Post.new(
+      :user_id => params[:user_id],
+      :title => params[:title],
+      :body => params[:body]
+      )
+
+    if @post.save
+      redirect_to @post
+    end
   end
 
   def update
