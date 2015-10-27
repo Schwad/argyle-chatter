@@ -1,23 +1,40 @@
 class PostsController < ApplicationController
-  before_filter :set_post, :only => [:create, :show, :destroy, :update]
+  # before_filter :set_post, :only => [:create, :show, :destroy, :update]
 
   def show
-    redirect_to root unless @p
-    @post = Post.find(params[:id])
+    set_post
   end
 
   def index
-    @posts = Post.where("user_id = ?", current_user.id)
+    @user = User.find(params[:user_id])
+    @posts = @user.posts
   end
 
   def destroy
 
   end
 
+  def new
+    set_post
+    @user = User.find(params[:user_id])
+  end
+
+  def create
+    set_post
+  end
+
+  def update
+    set_post
+  end
+
   private
 
   def set_post
-    @p = Post.find(params[:id])
+    begin
+      @post = Post.find(params[:id])
+    rescue
+      flash[:error] = "Post does not exist"
+      redirect_to root_path
+    end
   end
-
 end
