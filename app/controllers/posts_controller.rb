@@ -23,6 +23,7 @@ class PostsController < ApplicationController
     set_post
 
     @post = Post.new(
+      :id => params[:id],
       :user_id => params[:user_id],
       :title => params[:title],
       :body => params[:body]
@@ -30,6 +31,9 @@ class PostsController < ApplicationController
 
     if @post.save
       redirect_to @post
+    else
+      flash[:error] = "Post did not save correctly!"
+      redirect_to root_path
     end
   end
 

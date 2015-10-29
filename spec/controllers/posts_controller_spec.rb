@@ -4,6 +4,7 @@ describe PostsController do
 
   let(:post){create_list(:post, 5)}
   let(:user){create(:user, posts: post)}
+  let(:single_post){ create(:post) }
 
   describe "GET #index" do
     context "with params" do
@@ -88,9 +89,12 @@ describe PostsController do
       expect(response).to redirect_to user_post_path(assigns[:post])
     end
 
-    # it "creates a new post" do
-    #   expect{ post :create, post: attributes_for(:post)}.to change(Post, :count).by(1)
-    # end
+    before { user }
+    before { post }
+
+    it "creates a new post" do
+      expect{ post :create, post: attributes_for(:post)}.to change(Post, :count).by(1)
+    end
 
   end
 
