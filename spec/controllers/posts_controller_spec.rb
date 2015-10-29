@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe PostsController, :type => :controller do
+describe PostsController do
 
   let(:post){create_list(:post, 5)}
   let(:user){create(:user, posts: post)}
