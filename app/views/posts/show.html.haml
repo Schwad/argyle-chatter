@@ -1,0 +1,15 @@
+= render :partial => "shared/argylenavbar", :user => @user
+
+.row
+  .col-md-12
+    %h2
+      Now viewing an individual post by #{@post.user.email}
+
+.row
+  .col-md-12
+    %p
+      = @post.title
+    %p
+      = @post.body
+    %p
+      = link_to "Delete Post", user_post_path(@user.id, @post.id), :method => 'delete'

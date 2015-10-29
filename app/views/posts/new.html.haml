@@ -1,0 +1,12 @@
+= render :partial => "shared/argylenavbar", :user => @user
+
+.row
+  .col-md-12
+    %p Create new post!
+    = form_for @post, url: {action: "create"} do |post_form|
+      %p
+        = post_form.text_field :title
+      %p
+        = post_form.text_area :body, size: "30x10"
+      %p
+        = post_form.submit "Submit!"

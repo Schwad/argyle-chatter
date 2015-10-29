@@ -1,16 +1,30 @@
 = render :partial => "shared/argylenavbar", :user => @user
 
-- @posts.each do |post|
+.row
+  .col-sm-12
+    %h2
+      All posts in Argyle Chatter
+
+- @posts.reverse_each do |post|
   .row
     .col-sm-12
       .row
         .col-sm-12.posting-title
-          = post.title
+          %p
+            = post.title
       .row
         .col-sm-12.posting-body
-          = post.body
+          %p
+            = post.body
       .row
         .col-sm-4.posting-contact
-          = post.user.email
-          = link_to "Comment here", "#"
-
+          %p
+            %strong
+              Written by #{ post.user.email }
+              = local_time_ago(post.created_at)
+          %p
+            = link_to "Comment here", "#"
+          - if current_user && @user.id == post.user_id
+            %p
+              = link_to "Delete post", user_post_path(@user.id, post.id), :method => 'delete'
+  %br

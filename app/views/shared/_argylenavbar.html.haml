@@ -8,13 +8,22 @@
         %li
           = link_to "ARGYLE CHATTER!", root_path
       %ul.nav.navbar-nav.navbar-right
+        %li
         - if @user == nil
+          %li
+            = link_to "Now viewing as a guest", "#"
           %li
             = link_to "Log in!", new_user_session_path
           %li
             = link_to "Sign up!", new_user_registration_path
         - else
           %li
+            = link_to "All posts", root_path
+          %li
+            = link_to "My Posts", user_posts_path(@user.id)
+          %li
+            = link_to "Create new post", new_user_post_path(@user.id)
+          %li
             = link_to "Welcome #{@user.email}!", root_path
           %li
-            = link_to "Log out", destroy_user_session_path
+            = link_to "Log out", destroy_user_session_path(@user.id), :method => 'delete'

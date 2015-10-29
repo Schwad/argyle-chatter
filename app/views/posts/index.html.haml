@@ -1,0 +1,29 @@
+= render :partial => "shared/argylenavbar", :user => @user
+
+.row
+  .col-sm-12
+    %h2
+      Posts by #{@user.email}
+
+- @posts.reverse_each do |post|
+  .row
+    .col-sm-12
+      .row
+        .col-sm-12.posting-title
+          %p
+            = post.title
+      .row
+        .col-sm-12.posting-body
+          %p
+            = post.body
+      .row
+        .col-sm-4.posting-contact
+          %p
+            %strong
+              Written by #{post.user.email} #{ local_time_ago(post.created_at) }
+          %p
+            = link_to "Comment here", "#"
+          - if @user.id == post.user_id
+            %p
+              = link_to "Delete post", user_post_path(@user.id, post.id), :method => 'delete'
+  %br

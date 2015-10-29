@@ -2,7 +2,8 @@ class PostsController < ApplicationController
   # before_filter :set_post, :only => [:create, :show, :destroy, :update]
 
   def show
-    set_post
+    @user = current_user
+    @post = Post.find(params[:id])
   end
 
   def index
@@ -11,26 +12,30 @@ class PostsController < ApplicationController
   end
 
   def destroy
+    @user = current_user
+    @post = Post.find(params[:id])
+    @post.destroy
+    redirect_to user_posts_path(@user.id)
+    flash[:success] = "Post effectively destroyed!"
 
   end
 
   def new
-    set_post
     @user = User.find(params[:user_id])
+    @post = Post.new
   end
 
   def create
-    set_post
 
     @post = Post.new(
-      :id => params[:id],
       :user_id => params[:user_id],
-      :title => params[:title],
-      :body => params[:body]
+      :title => params[:post][:title],
+      :body => params[:post][:body]
       )
 
     if @post.save
-      redirect_to @post
+      flash[:success] = "Post created correctly!"
+      redirect_to user_post_path(params[:user_id], @post.id)
     else
       flash[:error] = "Post did not save correctly!"
       redirect_to root_path
