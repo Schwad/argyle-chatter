@@ -2,8 +2,8 @@ require 'rails_helper'
 
 describe PostsController do
 
-  let(:post){create_list(:post, 5)}
-  let(:user){create(:user, posts: post)}
+  let(:posts){create_list(:post, 5)}
+  let(:user){create(:user, posts: posts)}
   let(:single_post){ create(:post) }
 
   describe "GET #index" do
@@ -11,7 +11,7 @@ describe PostsController do
 
       it "populates an array of posts" do
         get :index, user_id: user.id
-        expect(assigns(:posts)).to match_array(post)
+        expect(assigns(:posts)).to match_array(posts)
       end
 
       it "renders the :index view template" do
@@ -34,12 +34,12 @@ describe PostsController do
     context "with valid params" do
 
       it "assigns the requested post to @post" do
-        get :show, id: post[0], user_id: user.id
-        expect(assigns(:post)).to eq(post[0])
+        get :show, id: posts[0], user_id: user.id
+        expect(assigns(:post)).to eq(posts[0])
       end
 
       it "renders the show template" do
-        get :show, id: post[0], user_id: user.id
+        get :show, id: posts[0], user_id: user.id
         expect(response).to render_template :show
       end
 
@@ -58,7 +58,7 @@ describe PostsController do
       end
 
       it "does not render show template with invalid params" do
-        expect{get :show, id: post[5], user_id: user.id}.to raise_error
+        expect{get :show, id: posts[5], user_id: user.id}.to raise_error
       end
     end
 
@@ -67,7 +67,7 @@ describe PostsController do
   describe "GET #new" do
 
     it "renders the new template" do
-      get :new, id: post[0], user_id: user.id
+      get :new, id: posts[0], user_id: user.id
       expect(response).to render_template :new
     end
 
@@ -85,15 +85,12 @@ describe PostsController do
   describe "POST #create" do
 
     it "redirects after post is created" do
-      post :create, post: attributes_for(:post)
-      expect(response).to redirect_to user_post_path(assigns[:post])
+      post :create, user_id: post.user_id, post: attributes_for(:post)
+      expect(response).to redirect_to user_posts_path(assigns[:post])
     end
 
-    before { user }
-    before { post }
-
     it "creates a new post" do
-      expect{ post :create, post: attributes_for(:post)}.to change(Post, :count).by(1)
+      expect{ post :create, post: attributes_for(:post) }.to change(Post, :count).by(1)
     end
 
   end

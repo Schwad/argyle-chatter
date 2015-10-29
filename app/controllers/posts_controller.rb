@@ -20,14 +20,7 @@ class PostsController < ApplicationController
   end
 
   def create
-    set_post
-
-    @post = Post.new(
-      :id => params[:id],
-      :user_id => params[:user_id],
-      :title => params[:title],
-      :body => params[:body]
-      )
+    @post = Post.new post_params
 
     if @post.save
       redirect_to @post
@@ -42,6 +35,10 @@ class PostsController < ApplicationController
   end
 
   private
+
+  def post_params
+    params.require(:post).permit(:user_id, :title, :body)
+  end
 
   def set_post
     begin
