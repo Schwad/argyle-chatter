@@ -1,16 +1,16 @@
-= render :partial => "shared/argyle_navbar", :user => @user
+= render :partial => "shared/argylenavbar", :user => @user
 
-%ul
-  %li hello
-  %li whatup
-  - what = 10 * 10
-  %li= what
-  =what*10
-=what*20
-%p{class: :fancy}wow
-#content okay
-.my-schwaddy wow
-.my-schwaddy= 1000 / 2
-.row.official
-  .col-sm-12
-    "just checking"
+- @posts.each do |post|
+  .row
+    .col-sm-12
+      .row
+        .col-sm-12.posting-title
+          = post.title
+      .row
+        .col-sm-12.posting-body
+          = post.body
+      .row
+        .col-sm-4.posting-contact
+          = post.user.email
+          = link_to "Comment here", "#"
+

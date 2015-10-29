@@ -2,4 +2,19 @@
   .container-fluid
     .navbar-header
       %a.navbar-brand{ :href => "https://www.github.com/schwad" }
-        %img{ :src => "http://lorempixel.com/100/60/", :alt => "Brand"}
+        %img{ :src => "http://lorempixel.com/100/20/", :alt => "Brand"}
+    .collapse.navbar-collapse#bs-example-navbar-collapse-1
+      %ul.nav.navbar-nav
+        %li
+          = link_to "ARGYLE CHATTER!", root_path
+      %ul.nav.navbar-nav.navbar-right
+        - if @user == nil
+          %li
+            = link_to "Log in!", new_user_session_path
+          %li
+            = link_to "Sign up!", new_user_registration_path
+        - else
+          %li
+            = link_to "Welcome #{@user.email}!", root_path
+          %li
+            = link_to "Log out", destroy_user_session_path
