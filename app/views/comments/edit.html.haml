@@ -1,0 +1,10 @@
+= render :partial => "shared/argylenavbar", :user => @user
+
+.row
+  .col-md-12
+    %p Edit yer comment!
+    = form_for @comment, :url=>{:action=>'update'} do |comment_form|
+      %p
+        = comment_form.text_area :body, size: "30x10"
+      %p
+        = comment_form.submit "Submit!"

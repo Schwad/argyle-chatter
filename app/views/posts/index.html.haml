@@ -19,12 +19,12 @@
           %p
             = post.body
       .row
-        .col-sm-4.posting-contact
+        .col-sm-6.posting-contact
           %p
             %strong
               Written by #{post.user.email} #{ local_time_ago(post.created_at) }
           %p
-            = link_to "Comment here", "#"
+            = link_to "Comment here", new_user_comment_path(@user.id, post.id)
             |
             = link_to "Show full post", user_post_path(post.user_id, post.id)
             - if @user.id == post.user_id
@@ -32,5 +32,9 @@
               = link_to "Delete post", user_post_path(@user.id, post.id), :method => 'delete'
               |
               =link_to "Edit Post", edit_user_post_path(@user.id, post.id)
+            - comments_count = post.comments.count
+            |
+            %strong
+              = link_to "#{comments_count} comments", user_post_path(post.user_id, post.id)
 %br
 %br

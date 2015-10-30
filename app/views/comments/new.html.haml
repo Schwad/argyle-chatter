@@ -1,0 +1,21 @@
+= render :partial => "shared/argylenavbar", :user => @user
+
+.row
+  .col-md-12
+    %p
+      %h4
+        Creating new comment for post by #{@post.user.email}
+    %br
+    %p
+      %h5
+        Post Body:
+    %p
+      = @post.body
+    %br
+    = form_for @comment, url: {action: "create"} do |comment_form|
+      %p
+        = comment_form.text_area :body, size: "30x10"
+      %p
+        = comment_form.hidden_field :user_id, :value => @user.id
+        = comment_form.hidden_field :post_id, :value => @post.id
+        = comment_form.submit "Submit!"

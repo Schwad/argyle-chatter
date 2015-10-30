@@ -1,0 +1,30 @@
+= render :partial => "shared/argylenavbar", :user => @user
+
+.row
+  .col-sm-12
+    %h2
+      All Comments By #{ @user.email }
+    %br
+    %br
+
+- @comments.reverse_each do |comment|
+  .row
+    .col-sm-12
+      .row
+        .col-sm-6.commenting-body
+          %p
+            %span{style: "background-color:#CFCFCF"}
+              = comment.body
+      .row
+        .col-sm-6.commenting-contact
+          %p
+            %strong
+              Written by #{ comment.user.email }
+              = local_time_ago(comment.created_at)
+          %p
+            - if current_user && @user.id == comment.user_id
+              = link_to "Delete comment", user_comment_path(@user.id, comment.id), :method => 'delete'
+              |
+              = link_to "Edit comment", edit_user_comment_path(@user.id, comment.id)
+  %br
+  %br

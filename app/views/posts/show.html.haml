@@ -11,12 +11,36 @@
       %h4
         = @post.title
     %p
-      = @post.body
+      %span{style: "background-color:#CFCFCF"}
+        = @post.body
     %p
       %strong
         Written #{ local_time_ago(@post.created_at) }
-    - if @user.id == @post.user_id
-      %p.some{ :style => "color:red;"}
+    %p
+      = link_to "Comment", new_user_comment_path(@user.id, @post.id)
+      - if @user.id == @post.user_id
+        |
         = link_to "Delete Post", user_post_path(@user.id, @post.id), :method => 'delete'
         |
         = link_to "Edit Post", edit_user_post_path(@user.id, @post.id)
+    %br
+    %p
+      %h3
+        COMMENTS
+    %br
+- @post.comments.reverse_each do |comment|
+  .row
+    .col-md-12
+      %p
+        %span{style: "background-color:#CFCFCF"}
+          = comment.body
+      %p
+        %em
+          Written by #{ comment.user.email } #{ local_time_ago( comment.created_at) }
+      - if comment.user_id == @user.id
+        %p
+          = link_to "Delete Comment", user_comment_path(@user.id, comment.id), :method => 'delete'
+          |
+          = link_to "Edit Comment", edit_user_comment_path(@user.id, comment.id)
+      %br
+

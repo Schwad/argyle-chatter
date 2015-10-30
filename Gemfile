@@ -37,6 +37,12 @@ group :development,:test do
   gem "factory_girl_rails", "~> 4.4.1"
 end
 
+group :development do
+  gem 'better_errors'
+  gem 'hirb'
+  gem 'jazz_hands', github: 'nixme/jazz_hands', branch: 'bring-your-own-debugger'
+end
+
 group :test do
   gem "faker", "~> 1.4.3"
   gem "capybara", "~> 2.4.3"
