@@ -4,6 +4,8 @@
   .col-sm-12
     %h2
       All posts in Argyle Chatter
+    %br
+    %br
 
 - @posts.reverse_each do |post|
   .row
@@ -11,7 +13,8 @@
       .row
         .col-sm-12.posting-title
           %p
-            = post.title
+            %h4
+              = post.title
       .row
         .col-sm-12.posting-body
           %p
@@ -24,7 +27,12 @@
               = local_time_ago(post.created_at)
           %p
             = link_to "Comment here", "#"
-          - if current_user && @user.id == post.user_id
-            %p
+            |
+            = link_to "Show full post", user_post_path(post.user_id, post.id)
+            - if current_user && @user.id == post.user_id
+              |
               = link_to "Delete post", user_post_path(@user.id, post.id), :method => 'delete'
+              |
+              = link_to "Edit post", edit_user_post_path(@user.id, post.id)
+  %br
   %br

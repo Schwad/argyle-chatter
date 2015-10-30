@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
   # before_filter :set_post, :only => [:create, :show, :destroy, :update]
+  before_filter :authenticate_user!
 
   def show
     @user = current_user
@@ -14,15 +15,46 @@ class PostsController < ApplicationController
   def destroy
     @user = current_user
     @post = Post.find(params[:id])
+
+    if @post.user_id != @user.id
+      flash[:error] = "Unauthorized action"
+      redirect_to root_path
+    end
+
     @post.destroy
     redirect_to user_posts_path(@user.id)
     flash[:success] = "Post effectively destroyed!"
 
   end
 
+  def edit
+    @user = current_user
+    @post = Post.find(params[:id])
+    if @post.user_id != @user.id
+      flash[:error] = "Unauthorized action"
+      redirect_to root_path
+    end
+  end
+
   def new
     @user = User.find(params[:user_id])
     @post = Post.new
+  end
+
+  def update
+    @user = current_user
+    @post = Post.find(params[:id])
+
+    if @post.user_id != @user.id
+      flash[:error] = "Unauthorized action"
+      redirect_to root_path
+    end
+
+    @post.title = params[:post][:title]
+    @post.body = params[:post][:body]
+    @post.save
+    flash[:success] = "Post updated!"
+    redirect_to user_post_path(@user.id, @post.id)
   end
 
   def create
@@ -42,9 +74,6 @@ class PostsController < ApplicationController
     end
   end
 
-  def update
-    set_post
-  end
 
   private
 
